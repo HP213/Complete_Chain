@@ -28,8 +28,8 @@ app.get('/blocks', (req, res)=>{
 });
 
 app.post('/getUserData', (req, res)=>{
-  const { publicKey } = req.body;
-  const walletOutput = bc.getUserData(publicKey);
+  const { address, privateKey } = req.body;
+  const walletOutput = bc.getUserData(address, privateKey);
   res.json(walletOutput);
 })
 
@@ -40,8 +40,12 @@ app.post('/mine', (req, res)=>{
   res.redirect('/blocks');
 })
 
-app.get('/keyPair', (req, res)=>{
-  res.json(wallet.keyPair.getPrivate('hex'));
+app.get('/address', (req, res)=>{
+  res.json(wallet.keyPair.address);
+});
+
+app.get('/privateKey', (req, res)=>{
+  res.json(wallet.keyPair.privateKey);
 })
 
 app.get('/mine', (req, res)=>{

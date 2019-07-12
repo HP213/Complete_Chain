@@ -46,21 +46,43 @@ class Blockchain{
     this.chain = newChain;              //All confirms and conditions done than replace chain
   }
 
-  getUserData(publicKey){
+  getUserData(address, privateKey){
     let transactions = [];
 
     this.chain.forEach(block => block.data.forEach(transaction => {
       transactions.push(transaction);
     }));
     const walletOutput = []
-    transactions.forEach(transaction =>{
-      transaction.outputs.find(output=>{
-        if(output.address === publicKey){
-          walletOutput.push(output);
-        }
-      })
+    // transactions.forEach(transaction =>{
+    //   transaction.outputs.find(output=>{
+    //     console.log("Check output :", output[1]);
+    //     // if(output.address === publicKey){
+    //     //   walletOutput.push(output);
+    //     // }
+    //   })
+    // })
+
+    /////////////////****************************
+    console.log(address);
+    const outputFinal = [];
+    transactions.forEach(transaction => {
+              const valuess = JSON.stringify(transaction.outputs);
+              // console.log("valuess :", transaction.outputs[1]);
+              if(valuess.substring(1, 2) === '{'){
+                if(transaction.outputs[1].address === address){
+                  outputFinal.push(transaction.outputs);
+                };
+              }else{
+                transaction.outputs.forEach(output => {
+                  if(output[1].address === address){
+                      outputFinal.push(output);
+                  };
+                })
+              }
+
+
     })
-    return walletOutput;
+    return outputFinal;
   }
 
   getSenderData(publicKey){
