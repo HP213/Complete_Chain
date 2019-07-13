@@ -31,12 +31,16 @@ class Blockchain{
     const lastBlock = this.chain[this.chain.length-1];      //Data represents the blockchain passed while callig this function and "this" represents the passed blockchain or data.
     const block = Block.mineBlock(lastBlock, data);
     this.chain.push(block);  //Adds block to curret blockchain
+    if(this.isValid(this.chain)){
     fs.readFile('test.json', function (err, data) {
     var json = JSON.parse(data)
     json.push(block)
     fs.writeFileSync("test.json", JSON.stringify(json))
     })
     return block;   //returns newly mined block;
+  }else{
+      return false;
+    }
   }
 
   isValid(chain){

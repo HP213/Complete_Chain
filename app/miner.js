@@ -45,10 +45,11 @@ class Miners{
     }).then(datas => {
       validTransactions.push(value);
       const block = this.blockchain.addBlock(validTransactions);
+      if(block !== false){
       this.p2pserver.syncChain();
       this.transactionPool.clear();
       this.p2pserver.broadcastClearMessage();
-
+      }
     })
 
     return;
