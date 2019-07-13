@@ -27,10 +27,10 @@ app.get('/blocks', (req, res)=>{
   res.json(bc.chain);
 });
 
-app.post('/getUserData', (req, res)=>{
+app.post('/getUserData', async (req, res)=>{
   const { address, privateKey } = req.body;
-  const walletOutput = bc.getUserData(address, privateKey);
-  res.json(walletOutput);
+  const walletOutput =  await bc.getUserData(address, privateKey);
+  res.send(walletOutput);
 })
 
 app.post('/mine', (req, res)=>{
