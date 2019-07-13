@@ -96,8 +96,32 @@ class Blockchain{
           outputFinal[i] = mydata;
       }
     }
-    const final = {'Received Data ': outputFinal};
-    return final
+    const inputFinal = [];
+    const displayInputfinal = [];
+    const displayOutputfinal = [];
+    transactions.forEach(transaction =>{
+      console.log("transactions :", transaction.input.address);
+      const inputAddress = EthCrypto.publicKey.toAddress(transaction.input.address);
+      if(inputAddress === address){
+        inputFinal.push(transaction);
+      }
+    })
+    // console.log("inputFinal: ", inputFinal);
+    inputFinal.forEach(transaction => {
+      const value = JSON.stringify(transaction.outputs);
+      if(value.substring(1, 2) !== '{'){
+        displayInputfinal.push(transaction.outputs);
+      }
+    })
+    for(var i=0; i<displayInputfinal[0].length; i++){
+      if(displayInputfinal[0][i][1].address !== address){
+        displayOutputfinal.push(displayInputfinal[0][i][1].address);
+      }
+    }
+
+    const final = {'Received Data ': outputFinal,
+                  'Output addresses' : displayOutputfinal};
+    return final;
   }
 
 

@@ -27,6 +27,11 @@ app.get('/blocks', (req, res)=>{
   res.json(bc.chain);
 });
 
+app.get('/getBalance', async (req, res)=>{
+  const balance = await wallet.calculateBalance(bc);
+  res.json(balance);
+});
+
 app.post('/getUserData', async (req, res)=>{
   const { address, privateKey } = req.body;
   const walletOutput =  await bc.getUserData(address, privateKey);
